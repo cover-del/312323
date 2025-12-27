@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>排行榜</title>
+<style>
+body {
+  font-family: Arial;
+  background: #111;
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+}
+table {
+  width: 90%;
+  max-width: 500px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background: #000;
+}
+th, td {
+  border: 1px solid #555;
+  padding: 10px;
+}
+th {
+  background: #222;
+}
+tr:nth-child(even) {
+  background: #111;
+}
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  background: gold;
+}
+</style>
+</head>
+<body>
+
+<h2>🏆 排行榜 TOP 10</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>名次</th>
+      <th>玩家</th>
+      <th>分數</th>
+    </tr>
+  </thead>
+  <tbody id="rankBody">
+    <tr><td colspan="3">載入中...</td></tr>
+  </tbody>
+</table>
+
+<button onclick="goBack()">⬅ 返回遊戲</button>
+
+<script>
+function getRanking() {
+  return JSON.parse(localStorage.getItem("ranking") || "[]");
+}
+
+function showRanking() {
+  const list = getRanking();
+  const tbody = document.getElementById("rankBody");
+  tbody.innerHTML = "";
+
+  if (!list || list.length === 0) {
+    tbody.innerHTML = "<tr><td colspan='3'>尚無資料</td></tr>";
+    return;
+  }
+
+  list.forEach((row,i)=>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${i+1}</td><td>${row.name}</td><td>${row.score}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function goBack() {
+  window.location.href = "index.html";
+}
+
+showRanking();
+</script>
+</body>
+</html>
